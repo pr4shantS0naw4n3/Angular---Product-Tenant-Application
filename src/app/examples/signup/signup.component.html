@@ -1,0 +1,127 @@
+<div class="wrapper">
+    <div class="page-header" style="background-image: url('./assets/img/login-image.jpg');">
+        <div class="filter"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div class="card card-register">
+                        <h3 class="title">Register</h3>
+                        <form class="register-form" [formGroup]="registerFrom" (ngSubmit)="register()">
+                            <label>Full Name</label>
+                            <div class="input-group form-group-no-border"
+                                [ngClass]="{'input-group-focus':focus===true}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="nc-icon nc-badge"></i>
+                                    </span>
+                                </div>
+
+                                <input type="text" formControlName="fullname" class="form-control"
+                                    placeholder="Full Name" (focus)="focus=true;hasError=false" (blur)="focus=false">
+                            </div>
+                            <div class="error" *ngIf="hasError">
+                                <span *ngIf="error['fullname']" style="color: red;">{{error['fullname']}}</span>
+                            </div>
+
+                            <label>Mobile No</label>
+                            <div class="input-group form-group-no-border"
+                                [ngClass]="{'input-group-focus':focus===true}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="nc-icon nc-tablet-2"></i>
+                                    </span>
+                                </div>
+
+                                <input type="text" formControlName="mobileNo" class="form-control"
+                                    placeholder="Mobile No" (focus)="focus=true;hasError=false" (blur)="focus=false">
+                            </div>
+                            <div class="error" *ngIf="hasError">
+                                <span *ngIf="error['mobileNo']" style="color: red;">{{error['mobileNo']}}</span>
+                            </div>
+
+                            <label>Date of Birth</label>
+                            <div class="input-group form-group-no-border"
+                                [ngClass]="{'input-group-focus':focus===true}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="nc-icon nc-calendar-60"></i>
+                                    </span>
+                                </div>
+
+                                <input type="Date" formControlName="DOB" class="form-control"
+                                    placeholder="Date Of Birth" (focus)="focus=true;hasError=false"
+                                    (blur)="focus=false">
+                            </div>
+                            <div class="error" *ngIf="hasError">
+                                <span *ngIf="error['DOB']" style="color: red;">{{error['DOB']}}</span>
+                            </div>
+
+                            <label>Country</label>
+                            <div class="input-group form-group-no-border"
+                                [ngClass]="{'input-group-focus':focus===true}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="nc-icon nc-compass-05"></i>
+                                    </span>
+                                </div>
+
+                                <div class="col-lg-5 col-md-6 col-sm-3">
+                                    <select formControlName="country" class="selectpicker"
+                                        data-style="btn btn-primary btn-round"
+                                        style="width:248px;height:42px;margin-left:-14px;background-color: #E8F0FE;"
+                                        title="Single Select">
+                                        <option *ngFor="let country of countrys" [value]="country.countryName">
+                                            {{country.countryName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="error" *ngIf="hasError">
+                                <span *ngIf="error['country']" style="color: red;">{{error['country']}}</span>
+                            </div>
+
+
+
+                            <label>Email</label>
+                            <div class="input-group form-group-no-border"
+                                [ngClass]="{'input-group-focus':focus===true}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="nc-icon nc-email-85"></i>
+                                    </span>
+                                </div>
+
+                                <input type="text" formControlName="emailId" class="form-control" placeholder="Email"
+                                    (focus)="focus=true;hasError=false" (blur)="focus=false">
+                            </div>
+                            <div class="error" *ngIf="hasError">
+                                <span *ngIf="error['emailId']" style="color: red;">{{error['emailId']}}</span>
+                            </div>
+
+                            <label>Password</label>
+                            <div class="input-group form-group-no-border"
+                                [ngClass]="{'input-group-focus':focus1===true}">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="nc-icon nc-key-25"></i>
+                                    </span>
+                                </div>
+                                <input type="password" formControlName="password" class="form-control"
+                                    placeholder="Password" (focus)="focus1=true;hasError=false" (blur)="focus1=false">
+                            </div>
+                            <div class="error" *ngIf="hasError">
+                                <span *ngIf="error['password']" style="color: red;">{{error['password']}}</span>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-block btn-round">Register</button>
+                        </form>
+                        <div class="forgot">
+                            Already have an Account?
+                            <a (click)="router.navigate(['/login'])"
+                                style="cursor: pointer;text-decoration: underline;">Login
+                                here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
