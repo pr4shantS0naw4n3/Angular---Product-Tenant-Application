@@ -1,3 +1,4 @@
+import { RequestIdService } from './../../shared/request-id.service';
 import { NotificationService } from './../../shared/notification.service';
 import { Router } from '@angular/router';
 import { ApiService } from './../../shared/api.service';
@@ -34,15 +35,25 @@ export class SignupComponent implements OnInit {
     constructor(
         private apiservice: ApiService,
         private notification: NotificationService,
-        public router: Router
+        public router: Router,
+        private requestId: RequestIdService
     ) {
     }
 
     ngOnInit() { }
 
     register() {
+        const regParams = {
+            "requestId": this.requestId.getRequestId(),
+            "emailId": this.registerFrom.value.emailId,
+            "password": this.registerFrom.value.password,
+            "fullname": this.registerFrom.value.fullname,
+            "country": this.registerFrom.value.country,
+            "DOB": this.registerFrom.value.DOB,
+            "mobileNo": this.registerFrom.value.mobileNo
+        }
         console.log(this.registerFrom.value);
-        this.apiservice.registerNewUser(this.registerFrom.value).subscribe(data => {
+        this.apiservice.registerNewUser(regParams).subscribe(data => {
             console.log(data);
             if (data['responseStatus'] === 200) {
                 this.hasError = false;

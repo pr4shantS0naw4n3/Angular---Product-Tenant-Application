@@ -1,0 +1,15 @@
+h1,
+h3 {
+    text-align: center;
+    color: orangered;
+}
+
+.buy-image-dialog {}
+
+mat-slider {
+    width: 300px;
+}
+
+span {
+    color: red;
+}

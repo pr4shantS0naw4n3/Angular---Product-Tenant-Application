@@ -26,4 +26,8 @@ export class ApiService {
   registerNewUser(userData) {
     return this.http.post(environment.api + 'users/', JSON.stringify(userData), httpOptions);
   }
+
+  buyImage(data) {
+    return this.http.post(environment.api + 'user/buyImages/', JSON.stringify(data), httpOptions);
+  }
 }

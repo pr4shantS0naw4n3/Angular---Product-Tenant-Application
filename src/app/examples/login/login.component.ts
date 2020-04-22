@@ -1,9 +1,11 @@
+import { RequestIdService } from './../../shared/request-id.service';
 import { Router } from '@angular/router';
 import { ApiService } from './../../shared/api.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import * as $ from 'jquery';
 import { CookieService } from 'ngx-cookie-service';
+import { Globals } from 'app/shared/globals';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     public router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private requestId: RequestIdService,
+    public globals: Globals
   ) { }
 
   ngOnInit(): void {
@@ -41,12 +45,19 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.value);
-    this.apiService.userLogin(this.loginForm.value).subscribe(userData => {
+    const loginParams = {
+      requestId: this.requestId.getRequestId(),
+      emailId: this.loginForm.value.emailId,
+      password: this.loginForm.value.password,
+      country: this.loginForm.value.country
+    }
+    this.apiService.userLogin(loginParams).subscribe(userData => {
       console.log(userData);
       if (userData['responseStatus'] === 200) {
         this.hasError = false;
         this.cookieService.set('token', userData['token']);
+        console.log(userData['userData']);
+        this.globals.userInfo = userData['userData'];
         this.router.navigate(['/user-profile'])
       }
     }, (errorData) => {

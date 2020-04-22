@@ -95,4 +95,8 @@ export class NavbarComponent implements OnInit {
         this.cookieService.delete('token');
         this.router.navigate(['/login']);
     }
+
+    changeStyle(e) {
+        console.log(e);
+    }
 }

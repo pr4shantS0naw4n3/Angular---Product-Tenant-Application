@@ -1,0 +1,11 @@
+<div class="buy-image-dialog">
+    <h1>Hello {{userData.userInfo.fullname}}</h1>
+    <div>
+        <h4><b>Please select the number of images you want to Buy</b></h4>
+        <mat-slider thumbLabel tickInterval="10" min="1" max="10" [(ngModel)]="imageCount"> </mat-slider><br>
+        <mat-hint>(The image buying limit per day is 10)</mat-hint><br>
+        <span *ngIf="error">{{errorMessage}}</span><br><br>
+        <button class="btn btn-outline-danger btn-round" (click)="buy()">Confirm</button>&nbsp;
+        <button class="btn btn-outline-danger btn-round" (click)="cancel()">Cancel</button>
+    </div>
+</div>
