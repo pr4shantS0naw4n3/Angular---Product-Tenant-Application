@@ -1,6 +1,6 @@
 <div class="wrapper">
     <div class="page-header page-header-xs" data-parallax="true"
-        style="background-image: url('./assets/img/dataImg1.jpg');">
+        style="background-image: url('./assets/img/fabio-mangione.jpg');">
         <div class="filter"></div>
     </div>
     <div class="section profile-content">
@@ -22,41 +22,21 @@
         </div>
     </div>
     <div class="main">
-
-        <div class="section" id="carousel">
-            <div class="container">
-                <div class="tim-title">
-                    <h1 style="text-align: center;"><b>Pict Vison Plans</b></h1>
+        <mat-tab-group style="margin-left: 400px;margin-right: 450px;">
+            <mat-tab label="Transactions">
+                <div>
+                    <table class="rwd-table">
+                        <tr>
+                            <th>No of transactions</th>
+                            <th>No of Images Purchased</th>
+                        </tr>
+                        <tr *ngFor="let element of transaction_info">
+                            <td>{{element.imagesBuyCount}}</td>
+                            <td>{{element.noOfImagesPurchased}}</td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="row">
-                    <div class="col-md-8 mr-auto ml-auto">
-                        <div class="card page-carousel">
-                            <ngb-carousel>
-                                <ng-template ngbSlide>
-                                    <img src="./assets/img/caro-img1.jpg" alt="Random first slide">
-                                    <div style="text-align: center;">
-                                        <h2><b>Get 50 images for free</b></h2>
-                                        <h3><b>Try the 50 images per month plan for free right now with a 30-day trial.
-                                                Cancel anytime.</b></h3>
-                                    </div>
-                                </ng-template>
-                                <ng-template ngbSlide>
-                                    <img src="./assets/img/caro-img2.jpg" alt="Random second slide">
-                                    <div style="text-align: center;">
-                                        <h2><b>Upto 15 1080p images accessible</b></h2>
-                                    </div>
-                                </ng-template>
-                                <ng-template ngbSlide>
-                                    <img src="./assets/img/caro-img3.jpg" alt="Random third slide">
-                                    <div style="text-align: center;">
-                                        <h2><b>Upto 20 HD images download allowed</b></h2>
-                                    </div>
-                                </ng-template>
-                            </ngb-carousel>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </mat-tab>
+        </mat-tab-group>
     </div>
 </div>

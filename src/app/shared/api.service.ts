@@ -30,4 +30,8 @@ export class ApiService {
   buyImage(data) {
     return this.http.post(environment.api + 'user/buyImages/', JSON.stringify(data), httpOptions);
   }
+
+  getTransactionHistory(data) {
+    return this.http.post(environment.api + 'user/buyImages/', JSON.stringify(data), httpOptions);
+  }
 }

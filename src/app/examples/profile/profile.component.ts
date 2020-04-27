@@ -1,3 +1,4 @@
+import { ApiService } from './../../shared/api.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { BuyImageDialogComponent } from './buy-image-dialog/buy-image-dialog.component';
@@ -17,11 +18,13 @@ export class ProfileComponent implements OnInit {
     user_emailId: any;
     user_country: any;
     user_mobileNo: any;
+    transaction_info: any;
     constructor(
         public globals: Globals,
         public dialog: MatDialog,
         private cookieService: CookieService,
-        private router: Router
+        private router: Router,
+        private apiservice: ApiService
     ) { }
 
     ngOnInit() {
@@ -32,6 +35,7 @@ export class ProfileComponent implements OnInit {
             this.user_emailId = this.user_info.emailId
             this.user_country = this.user_info.country
             this.user_mobileNo = this.user_info.mobileNo
+            this.getTransactionHistory(this.user_emailId)
         } else {
             this.router.navigate(['/login']);
         }
@@ -49,6 +53,18 @@ export class ProfileComponent implements OnInit {
         }
 
         const dialogRef = this.dialog.open(BuyImageDialogComponent, dialogConfig);
+    }
+
+    getTransactionHistory(emailId) {
+        const params = {
+            "requestType": "getTransactionHistory",
+            "emailId": emailId
+        }
+        this.apiservice.getTransactionHistory(params).subscribe(data => {
+            this.transaction_info = Array(data['userDetails'])
+            console.log(this.transaction_info);
+
+        })
     }
 
 }

@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Globals } from './shared/globals';
 import { PaymentComponent } from './payment/payment.component';
+import { ThankYouComponent } from './payment/thank-you/thank-you.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { PaymentComponent } from './payment/payment.component';
     AppComponent,
     NavbarComponent,
     FooterComponent,
-    PaymentComponent
+    PaymentComponent,
+    ThankYouComponent
   ],
   imports: [
     BrowserModule,

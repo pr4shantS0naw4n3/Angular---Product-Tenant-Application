@@ -1,3 +1,4 @@
+import { ThankYouComponent } from './payment/thank-you/thank-you.component';
 import { PaymentComponent } from './payment/payment.component';
 import { LoginComponent } from './examples/login/login.component';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'landing', component: LandingComponent },
   { path: 'nucleoicons', component: NucleoiconsComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'user/make-payment', component: PaymentComponent }
+  { path: 'user/make-payment', component: PaymentComponent },
+  { path: 'user/make-payment/payment-success', component: ThankYouComponent }
 ];
 
 @NgModule({

@@ -63,18 +63,16 @@ export class PaymentComponent implements OnInit {
   }
 
   proceedToPay() {
-    console.log(this.paymentFormGroup.value);
-    console.log(this.userData);
     const params = {
+      requestType: "buyImages",
       emailId: this.userData.emailId,
       imageCount: this.userData.imageQuantity,
     }
     this.apiService.buyImage(params).subscribe(data => {
-      console.log(data);
       if (data['responseStatus'] === 200) {
         this.notify.pop(data['responseMessage'])
         localStorage.removeItem('paymentInfo');
-        this.router.navigate(['/user-profile'])
+        this.router.navigate(['/user/make-payment/payment-success'])
       }
     }, (errorData) => {
       this.notify.pop(errorData.error.responseMessage)
