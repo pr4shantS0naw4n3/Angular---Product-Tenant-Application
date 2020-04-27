@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Globals {
+    paymentBlock: any;
     constructor() { }
 
     get userInfo() {
@@ -10,5 +11,13 @@ export class Globals {
 
     set userInfo(userData: any) {
         localStorage.setItem('userInfo', JSON.stringify(userData))
+    }
+
+    get paymentData() {
+        return JSON.parse(localStorage.getItem('paymentInfo'))
+    }
+
+    set paymentData(paymentData: any) {
+        localStorage.setItem('paymentInfo', JSON.stringify(paymentData))
     }
 }

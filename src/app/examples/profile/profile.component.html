@@ -9,11 +9,14 @@
                 <div class="avatar">
                     <img src="./assets/img/faces/profile_Icon.jpg" alt="Circle Image"
                         class="img-circle img-no-padding img-responsive">
+                    <i rel="tooltip" title="You are Prime" *ngIf="globals.userInfo.isPrime"
+                        class="fa fa-star fa-2x fa-fw" style="color:orangered;margin-left: -8px;"></i>
                 </div>
                 <div class="name">
                     <h3 class="title">{{user_fullName}}<br /></h3>
                     <h4 class="description">{{user_emailId}}, {{user_country | titlecase}}</h4>
-                    <button class="btn btn-outline-danger btn-round" (click)="userBuyImage()">Buy Image</button>
+                    <a style="margin-top: 35px;margin-bottom: -20px;" class="btn btn-outline-danger btn-round"
+                        (click)="userBuyImage()"><i class="fa fa-cart-plus fa-lg fa-fw"></i> Buy Image</a>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500">
-    <div class="container">
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500" style="z-index: 900;">
+    <div class="container" *ngIf="isPayment()">
         <div class="navbar-translate">
             <a class="navbar-brand" style="color:white">
                 Pict <i class="fa fa-cog fa-spin fa-lg fa-fw"></i> Vision</a>
@@ -15,7 +15,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" *ngIf="!isDocumentation() || isProfile()">
                     <a style="color:white" class="btn btn-danger btn-round" rel="tooltip" title="Pict Vison Prime"
-                        data-placement="bottom"><i class="fa fa-star fa-spin fa-3x fa-fw"></i>Try Prime</a>
+                        data-placement="bottom"><i class="fa fa-star fa-spin fa-3x fa-fw"></i>{{isPrime()}}</a>
                 </li>
                 <li class="nav-item" *ngIf="!isDocumentation()">
                     <a class="nav-link" rel="tooltip" title="Follow us on Twitter" data-placement="bottom"

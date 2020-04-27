@@ -1,3 +1,4 @@
+import { Globals } from 'app/shared/globals';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
 import { Component, OnInit, ElementRef } from '@angular/core';
@@ -16,7 +17,8 @@ export class NavbarComponent implements OnInit {
         public location: Location,
         private element: ElementRef,
         private cookieService: CookieService,
-        private router: Router) {
+        private router: Router,
+        public globals: Globals) {
         this.sidebarVisible = false;
     }
 
@@ -93,7 +95,28 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         this.cookieService.delete('token');
+        localStorage.removeItem('userInfo')
         this.router.navigate(['/login']);
+    }
+    isPayment() {
+        var titlee = this.location.prepareExternalUrl(this.location.path());
+        if (titlee.charAt(0) === '#') {
+            titlee = titlee.slice(1);
+        }
+        if (titlee.includes('/make-payment')) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    isPrime() {
+        if (this.globals.userInfo !== null && this.globals.userInfo.isPrime) {
+            return 'Prime'
+        } else {
+            return 'Try Prime'
+        }
     }
 
     changeStyle(e) {

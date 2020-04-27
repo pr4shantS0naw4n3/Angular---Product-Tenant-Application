@@ -1,3 +1,4 @@
+import { CookieService } from 'ngx-cookie-service';
 import { RequestIdService } from './../../shared/request-id.service';
 import { NotificationService } from './../../shared/notification.service';
 import { Router } from '@angular/router';
@@ -36,11 +37,17 @@ export class SignupComponent implements OnInit {
         private apiservice: ApiService,
         private notification: NotificationService,
         public router: Router,
-        private requestId: RequestIdService
+        private requestId: RequestIdService,
+        private cookieService: CookieService,
     ) {
     }
 
-    ngOnInit() { }
+    ngOnInit() {
+        const vToken = this.cookieService.get('token');
+        if (vToken) {
+            this.router.navigate(['/user-profile']);
+        }
+    }
 
     register() {
         const regParams = {

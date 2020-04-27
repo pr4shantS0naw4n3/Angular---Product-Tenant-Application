@@ -1,3 +1,4 @@
+import { PaymentComponent } from './payment/payment.component';
 import { LoginComponent } from './examples/login/login.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
@@ -17,8 +18,8 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'landing', component: LandingComponent },
   { path: 'nucleoicons', component: NucleoiconsComponent },
-  { path: 'login', component: LoginComponent }
-
+  { path: 'login', component: LoginComponent },
+  { path: 'user/make-payment', component: PaymentComponent }
 ];
 
 @NgModule({

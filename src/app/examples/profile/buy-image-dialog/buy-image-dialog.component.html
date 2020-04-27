@@ -1,11 +1,50 @@
-<div class="buy-image-dialog">
+<div class="buy-image-dialog" *ngIf="!preConfirm">
     <h1>Hello {{userData.userInfo.fullname}}</h1>
     <div>
-        <h4><b>Please select the number of images you want to Buy</b></h4>
-        <mat-slider thumbLabel tickInterval="10" min="1" max="10" [(ngModel)]="imageCount"> </mat-slider><br>
-        <mat-hint>(The image buying limit per day is 10)</mat-hint><br>
-        <span *ngIf="error">{{errorMessage}}</span><br><br>
-        <button class="btn btn-outline-danger btn-round" (click)="buy()">Confirm</button>&nbsp;
+        <h4><b style="font-size: medium;">Please select the images you want to buy:</b></h4>
+        <ul *ngFor="let image of imageArray">
+            <li>
+                <label><b>Size: </b>{{image.width}} x {{image.height}} </label>
+                <label><b>Prize: </b>$ {{image.price}} </label>
+                <input type="checkbox" [id]="image.id" style="display:none" [value]="image.isSelected"
+                    [checked]="image.isSelected"
+                    (change)="$event.target.checked?image.isSelected=true:image.isSelected=false" />
+                <label [for]="image.id"><img [src]="image.download_url" /></label>
+                <hr>
+            </li>
+        </ul>
+        <button class="btn btn-outline-danger btn-round" (click)="confirm()">Confirm</button>&nbsp;
+        <button class="btn btn-outline-danger btn-round" (click)="cancel()">Cancel</button>
+    </div>
+</div>
+
+<div *ngIf="preConfirm">
+    <h1>Pre Confirmation Page</h1>
+    <div>
+        <h4><b style="font-size: medium;">Images Selected by You:</b></h4>
+        <ul *ngFor="let image of filterSelectedImage">
+            <li>
+                <label><b>Size: </b>{{image.width}} x {{image.height}} </label>
+                <label><b>Prize: </b>$ {{image.price}} </label>
+                <label><img [src]="image.download_url" /></label>
+                <hr>
+            </li>
+        </ul>
+        <div>
+            <b style="font-size: large;text-align: center;color: orangered;">Billing Details</b><br>
+            <hr>
+            Customer Name<br>
+            <b>{{userData.userInfo.fullname}}</b><br><br>
+            Contact Number<br>
+            <b>+91 - {{userData.userInfo.mobileNo}}</b><br><br>
+            Image Quantity<br>
+            <b> {{filterSelectedImage.length}}</b><br><br>
+            Total Amount to pay<br>
+            <b>${{amountToPay}}</b><br>
+            <hr>
+        </div>
+        <a class="btn btn-outline-danger btn-round" (click)="pay()"><i class="fa fa-rocket fa-lg fa-fw"></i>Pay
+            now</a>&nbsp;
         <button class="btn btn-outline-danger btn-round" (click)="cancel()">Cancel</button>
     </div>
 </div>
