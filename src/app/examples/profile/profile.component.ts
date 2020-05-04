@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
     user_country: any;
     user_mobileNo: any;
     transaction_info: any;
+    showTransactionTab = false;
     constructor(
         public globals: Globals,
         public dialog: MatDialog,
@@ -61,9 +62,11 @@ export class ProfileComponent implements OnInit {
             "emailId": emailId
         }
         this.apiservice.getTransactionHistory(params).subscribe(data => {
+            this.showTransactionTab = true;
             this.transaction_info = Array(data['userDetails'])
             console.log(this.transaction_info);
-
+        }, (errorData) => {
+            this.showTransactionTab = false;
         })
     }
 

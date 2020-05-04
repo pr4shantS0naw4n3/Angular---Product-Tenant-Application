@@ -49,7 +49,6 @@ export class PaymentComponent implements OnInit {
 
   checkDetails() {
     let validFlag = false;
-    this.paymentFormGroup.value.nameOnCard === 'JOHN WICK' ? validFlag = true : validFlag = false
     this.paymentFormGroup.value.cardNumber === '9999 - 9999 - 9999 - 9999' ? validFlag = true : validFlag = false
     this.paymentFormGroup.value.expiryDate === '10/2021' ? validFlag = true : validFlag = false
     this.paymentFormGroup.value.cvv === '111' ? validFlag = true : validFlag = false

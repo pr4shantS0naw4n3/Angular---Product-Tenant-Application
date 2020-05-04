@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
+import { RssoLoginComponent } from './login/rsso-login/rsso-login.component';
 
 @NgModule({
     imports: [
@@ -29,7 +30,8 @@ import { FormsModule } from '@angular/forms';
         SignupComponent,
         ProfileComponent,
         LoginComponent,
-        BuyImageDialogComponent
+        BuyImageDialogComponent,
+        RssoLoginComponent
     ],
     providers: [
         CookieService

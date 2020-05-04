@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit {
   hasError = false;
   error: any;
   countrys = [
-    { 'countryName': 'UNITED - STATES' },
-    { 'countryName': 'UNITED - KINGDOM' },
-    { 'countryName': 'AUSTRALIA' },
-    { 'countryName': 'CANADA' },
-    { 'countryName': 'IRELAND' }
+    { 'countryName': 'United States' },
+    { 'countryName': 'United Kingdom' },
+    { 'countryName': 'Australia' },
+    { 'countryName': 'Canada' },
+    { 'countryName': 'Ireland' }
   ]
   loginForm = new FormGroup({
     country: new FormControl(''),

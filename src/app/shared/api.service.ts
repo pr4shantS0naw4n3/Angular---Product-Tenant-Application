@@ -20,18 +20,22 @@ export class ApiService {
   ) { }
 
   userLogin(userData) {
-    return this.http.post(environment.api + 'user/Login/', JSON.stringify(userData), httpOptions);
+    return this.http.post(environment.apiUserEc2 + 'login/', JSON.stringify(userData), httpOptions);
+  }
+
+  rssoUserLogin(userData) {
+    return this.http.post(environment.apiSSOEc2 + 'login/', JSON.stringify(userData), httpOptions);
   }
 
   registerNewUser(userData) {
-    return this.http.post(environment.api + 'users/', JSON.stringify(userData), httpOptions);
+    return this.http.post(environment.apiUserEc2 + 'register/', JSON.stringify(userData), httpOptions);
   }
 
   buyImage(data) {
-    return this.http.post(environment.api + 'user/buyImages/', JSON.stringify(data), httpOptions);
+    return this.http.post(environment.apiUserEc2 + 'buyImages/', JSON.stringify(data), httpOptions);
   }
 
   getTransactionHistory(data) {
-    return this.http.post(environment.api + 'user/buyImages/', JSON.stringify(data), httpOptions);
+    return this.http.post(environment.apiUserEc2 + 'getTransactionHistory/', JSON.stringify(data), httpOptions);
   }
 }

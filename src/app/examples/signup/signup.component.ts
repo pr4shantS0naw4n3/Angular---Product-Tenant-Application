@@ -27,11 +27,11 @@ export class SignupComponent implements OnInit {
     })
 
     countrys = [
-        { 'countryName': 'UNITED - STATES' },
-        { 'countryName': 'UNITED - KINGDOM' },
-        { 'countryName': 'AUSTRALIA' },
-        { 'countryName': 'CANADA' },
-        { 'countryName': 'IRELAND' }
+        { 'countryName': 'United States' },
+        { 'countryName': 'United Kingdom' },
+        { 'countryName': 'Australia' },
+        { 'countryName': 'Canada' },
+        { 'countryName': 'Ireland' }
     ]
     constructor(
         private apiservice: ApiService,

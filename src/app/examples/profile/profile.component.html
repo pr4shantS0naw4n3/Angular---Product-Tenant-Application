@@ -16,12 +16,12 @@
                     <h3 class="title">{{user_fullName}}<br /></h3>
                     <h4 class="description">{{user_emailId}}, {{user_country | titlecase}}</h4>
                     <a style="margin-top: 35px;margin-bottom: -20px;" class="btn btn-outline-danger btn-round"
-                        (click)="userBuyImage()"><i class="fa fa-cart-plus fa-lg fa-fw"></i> Buy Image</a>
+                        (click)="userBuyImage()"><i class="fa fa-cart-plus fa-lg fa-fw"></i> Buy Images</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="main">
+    <div class="main" *ngIf="showTransactionTab">
         <mat-tab-group style="margin-left: 400px;margin-right: 450px;">
             <mat-tab label="Transactions">
                 <div>
@@ -31,8 +31,8 @@
                             <th>No of Images Purchased</th>
                         </tr>
                         <tr *ngFor="let element of transaction_info">
-                            <td>{{element.imagesBuyCount}}</td>
-                            <td>{{element.noOfImagesPurchased}}</td>
+                            <td>{{element.imagesBuyCount?element.imagesBuyCount:0}}</td>
+                            <td>{{element.noOfImagesPurchased?element.noOfImagesPurchased:0}}</td>
                         </tr>
                     </table>
                 </div>
