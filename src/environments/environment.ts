@@ -5,5 +5,12 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:8000/api/'
+
+  apiUserLcl: 'http://localhost:8000/api/user/',
+  apiPartnerLcl: 'http://localhost:8000/api/partner/',
+  apiSSOLcl: 'http://localhost:8000/api/SSO/',
+
+  apiUserEc2: 'http://52.208.218.183:8000/api/user/',
+  apiPartnerEc2: 'http://52.208.218.183:8000/api/partner/',
+  apiSSOEc2: 'http://localhost:8000/api/SSO/',
 };
