@@ -1,3 +1,4 @@
+import { ApiService } from './../api.service';
 import { Globals } from 'app/shared/globals';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
         public location: Location,
         private element: ElementRef,
         private cookieService: CookieService,
+        private apiServie: ApiService,
         private router: Router,
         public globals: Globals) {
         this.sidebarVisible = false;
@@ -121,5 +123,84 @@ export class NavbarComponent implements OnInit {
 
     changeStyle(e) {
         console.log(e);
+    }
+
+    doSSO() {
+        const userData = this.globals.userInfo;
+        if (this.cookieService.get('token')) {
+            //Step 0 Generate Checksum
+            let checksum;
+            let urlTo;
+            let activityCode = Math.floor(100000 + Math.random() * 90000000000000)
+            let sourceSessionId = Math.floor(100000 + Math.random() * 900000000)
+            const csparams = {
+                "requestName": "SSOAPI",
+                "sourceUserName": "toml",
+                "sourcePassword": "Test@1234",
+                "sourceSessionId": sourceSessionId.toString(),
+                "ownerId": userData.ownerId.toString(),
+                "activityCode": activityCode.toString()
+            }
+            this.apiServie.getChecksum(csparams).subscribe(data => {
+                checksum = data['checksum'];
+                urlTo = userData.isPrime ? 'dashboard' : 'subscribe'
+                //Step 1 Create Request
+                const params = {
+                    "requestName": "SSOAPI",
+                    "sourceUserName": "toml",
+                    "sourcePassword": "Test@1234",
+                    "sourceSessionId": sourceSessionId,
+                    "ownerId": userData.ownerId,
+                    "activityCode": activityCode,
+                    "activityUrl": "http://18northdev.com/test_prod/ng.php?url=" + urlTo,
+                    "checksum": checksum,
+                    "firstName": userData.firstName,
+                    "lastName": userData.lastName,
+                    "emailId": userData.emailId,
+                    "mobileNo": userData.mobileNo,
+                    "country": userData.country
+                }
+                // Step 2 Encrypt it 
+                this.apiServie.encrypt(params).subscribe(data => {
+                    const encryptedRequest = data
+                    const ssoAPIParams = {
+                        "sourceId": "TRPRIME",
+                        "request": encryptedRequest,
+                        "encryptionMode": "2",
+                        "partnerID": "TOML",
+                        "channelId": "WEBSITE"
+                    }
+                    //Step 3 Send it to SSO API
+                    this.apiServie.ssoApi(ssoAPIParams).subscribe(data => {
+                        const responseData = JSON.parse(data.toString());
+                        this.apiServie.decrypt(responseData.response).subscribe(data => {
+                            const ssoAPIResponse = JSON.parse(data.toString());
+                            const accessUrl = ssoAPIResponse.accessURL
+                            this.apiServie.decrypt(ssoAPIResponse.accessToken).subscribe(data => {
+                                const splitData = data.toString().split('|')
+                                // const redirectURL = accessUrl + '&token=' + ssoAPIResponse['accessToken'] + '&ownerId=' + splitData[1]
+                                const urlData = {
+                                    url: accessUrl.toString().split('?')[0],
+                                    to: accessUrl.toString().split('?')[1].split('=')[1],
+                                    token: ssoAPIResponse['accessToken'],
+                                    ownerId: splitData[1]
+                                }
+                                this.apiServie.redirect(urlData)
+                            })
+
+                            // Step 4 Get the response and redirect
+                        })
+                    }, (error) => {
+                        console.log(error);
+                    })
+                }, (error) => {
+                    console.log(error);
+                })
+            }, (error) => {
+                console.log(error);
+            })
+        } else {
+            window.location.href = 'http://18northdev.com/#/registration';
+        }
     }
 }

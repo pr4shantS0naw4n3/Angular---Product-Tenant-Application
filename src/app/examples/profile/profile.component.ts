@@ -1,3 +1,4 @@
+import { AesUtilService } from './../../shared/aes-util.service';
 import { ApiService } from './../../shared/api.service';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -25,7 +26,8 @@ export class ProfileComponent implements OnInit {
         public dialog: MatDialog,
         private cookieService: CookieService,
         private router: Router,
-        private apiservice: ApiService
+        private apiservice: ApiService,
+        private aesutilService: AesUtilService
     ) { }
 
     ngOnInit() {
@@ -36,6 +38,7 @@ export class ProfileComponent implements OnInit {
             this.user_emailId = this.user_info.emailId
             this.user_country = this.user_info.country
             this.user_mobileNo = this.user_info.mobileNo
+            // this.getUserPlan();
             this.getTransactionHistory(this.user_emailId)
         } else {
             this.router.navigate(['/login']);
@@ -67,6 +70,36 @@ export class ProfileComponent implements OnInit {
             console.log(this.transaction_info);
         }, (errorData) => {
             this.showTransactionTab = false;
+        })
+    }
+
+    getUserPlan() {
+        const params = {
+            "requestId": "3980908",
+            "channelId": "WEBSITE",
+            "ipAddress": "10.158.212.22",
+            "organizationId": "34576",
+            "requestName": "getPartnerUserPlan",
+            "productId": "1",
+            "productUser": "toml",
+            "productPassword": "Test@1234",
+            "userSubscriptionPlanInfo": {
+                "customerId": this.user_info.ownerId,
+                "customerIdType": "int",
+                "subscriptionStatus": "ACTIVE",
+                "planUtilization": "Y",
+                "paymentInfo": "Y",
+                "discountInfo": "Y"
+            }
+        }
+
+        const enc = this.aesutilService.internalEncrypt(JSON.stringify(params));
+        const encParams = {
+            request: enc
+        }
+
+        this.apiservice.getuserPlan(encParams).subscribe(data => {
+            console.log(data);
         })
     }
 
