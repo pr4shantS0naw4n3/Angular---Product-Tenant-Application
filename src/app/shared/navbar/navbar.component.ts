@@ -141,6 +141,8 @@ export class NavbarComponent implements OnInit {
                 "ownerId": userData.ownerId.toString(),
                 "activityCode": activityCode.toString()
             }
+            console.log(csparams);
+
             this.apiServie.getChecksum(csparams).subscribe(data => {
                 checksum = data['checksum'];
                 urlTo = userData.isPrime ? 'dashboard' : 'subscribe'
@@ -160,6 +162,7 @@ export class NavbarComponent implements OnInit {
                     "mobileNo": userData.mobileNo,
                     "country": userData.country
                 }
+                console.log(params);
                 // Step 2 Encrypt it 
                 this.apiServie.encrypt(params).subscribe(data => {
                     const encryptedRequest = data
@@ -170,13 +173,17 @@ export class NavbarComponent implements OnInit {
                         "partnerID": "TOML",
                         "channelId": "WEBSITE"
                     }
+                    console.log(ssoAPIParams);
                     //Step 3 Send it to SSO API
                     this.apiServie.ssoApi(ssoAPIParams).subscribe(data => {
                         const responseData = JSON.parse(data.toString());
+                        console.log(responseData);
                         this.apiServie.decrypt(responseData.response).subscribe(data => {
+                            console.log(data);
                             const ssoAPIResponse = JSON.parse(data.toString());
                             const accessUrl = ssoAPIResponse.accessURL
                             this.apiServie.decrypt(ssoAPIResponse.accessToken).subscribe(data => {
+                                console.log(data);
                                 const splitData = data.toString().split('|')
                                 // const redirectURL = accessUrl + '&token=' + ssoAPIResponse['accessToken'] + '&ownerId=' + splitData[1]
                                 const urlData = {

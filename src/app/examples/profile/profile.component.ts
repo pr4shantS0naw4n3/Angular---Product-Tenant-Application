@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
             this.user_emailId = this.user_info.emailId
             this.user_country = this.user_info.country
             this.user_mobileNo = this.user_info.mobileNo
-            // this.getUserPlan();
+            this.getUserPlan();
             this.getTransactionHistory(this.user_emailId)
         } else {
             this.router.navigate(['/login']);
@@ -100,6 +100,8 @@ export class ProfileComponent implements OnInit {
 
         this.apiservice.getuserPlan(encParams).subscribe(data => {
             console.log(data);
+        }, (error) => {
+            console.log(this.aesutilService.internalDecrypt("rn79jULPDgFzCqGYQSZ+6hWDHC32qL0oGCe/eNAzGZ8teo1PZgfquouOir3IktzjN8z3/fQTycwyF1NbnZXpc7TdhFLrWXI5D6w3lgdb1IZFtBOt1dIEyoKCJzDHqi2VeZAdKlnQgXvp84aLv95s8nNENMeR6TBDuiwv+cUgKNrjgMLogCVwu8QlP96GMkInwj6KznyScuB6J05k+KLB/O5zIHnGPNVHnJcPuQDg8sKRVz8I9U1cHB1XdlMu0EAMM1RxzgvFQFUQ/rZ0TschyXFdhoX/ZMgOJQzmiAqGpkI="));
         })
     }
 

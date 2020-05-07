@@ -1,27 +1,27 @@
 <div class="wrapper">
-    <div class="page-header page-header-xs" data-parallax="true"
-        style="background-image: url('./assets/img/fabio-mangione.jpg');">
+    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('./assets/img/city-in-retro-style-of-s-wallpaper.jpg');background-size: 1353px
+        330px;">
         <div class="filter"></div>
     </div>
-    <div class="section profile-content">
+    <div class="section profile-content hero-bkg-animated">
         <div class="container">
             <div class="owner">
                 <div class="avatar">
                     <img src="./assets/img/faces/profile_Icon.jpg" alt="Circle Image"
                         class="img-circle img-no-padding img-responsive">
                     <i rel="tooltip" title="You are Prime" *ngIf="globals.userInfo.isPrime"
-                        class="fa fa-star fa-2x fa-fw" style="color:orangered;margin-left: -8px;"></i>
+                        class="fa fa-star fa-2x fa-fw" style="color:rgb(110, 57, 38);margin-left: -8px;"></i>
                 </div>
                 <div class="name">
-                    <h3 class="title">{{user_fullName}}<br /></h3>
-                    <h4 class="description">{{user_emailId}}, {{user_country | titlecase}}</h4>
+                    <h3 class="title"><strong>{{user_fullName}}</strong><br /></h3>
+                    <h4 class="description"><strong>{{user_emailId}}, {{user_country | titlecase}}</strong></h4>
                     <a style="margin-top: 35px;margin-bottom: -20px;" class="btn btn-outline-danger btn-round"
                         (click)="userBuyImage()"><i class="fa fa-cart-plus fa-lg fa-fw"></i> Buy Images</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="main" *ngIf="showTransactionTab">
+    <div class="main hero-bkg-animated" *ngIf="showTransactionTab">
         <mat-tab-group style="margin-left: 400px;margin-right: 450px;">
             <mat-tab label="Transactions">
                 <div>
