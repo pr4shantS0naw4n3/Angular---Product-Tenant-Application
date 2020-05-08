@@ -1,16 +1,16 @@
 <div class="wrapper">
-    <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('./assets/img/city-in-retro-style-of-s-wallpaper.jpg');background-size: 1353px
-        330px;">
+    <div class="page-header page-header-xs" data-parallax="true"
+        style="background-image: url('./assets/img/fabio-mangione.jpg');">
         <div class="filter"></div>
     </div>
-    <div class="section profile-content hero-bkg-animated">
+    <div class="section profile-content" style="background-color: #F0F0F0;">
         <div class="container">
             <div class="owner">
                 <div class="avatar">
                     <img src="./assets/img/faces/profile_Icon.jpg" alt="Circle Image"
                         class="img-circle img-no-padding img-responsive">
                     <i rel="tooltip" title="You are Prime" *ngIf="globals.userInfo.isPrime"
-                        class="fa fa-star fa-2x fa-fw" style="color:rgb(110, 57, 38);margin-left: -8px;"></i>
+                        class="fa fa-star fa-2x fa-fw" style="color:orangered;margin-left: -8px;"></i>
                 </div>
                 <div class="name">
                     <h3 class="title"><strong>{{user_fullName}}</strong><br /></h3>
@@ -21,20 +21,99 @@
             </div>
         </div>
     </div>
-    <div class="main hero-bkg-animated" *ngIf="showTransactionTab">
-        <mat-tab-group style="margin-left: 400px;margin-right: 450px;">
-            <mat-tab label="Transactions">
-                <div>
+    <div class="main" style="background-color: #E0E0E0;">
+        <mat-tab-group style="margin-left: 46px;margin-right: 33px;">
+            <mat-tab label="Browse Images">
+                <div class="card page-carousel">
+                    <ngb-carousel>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/daniel-olahh.jpg" alt="Random first slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/daniel-olahs.jpg" alt="Random second slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/ilya-yakover.jpg" alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/joshua-stannard.jpg" alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/uriel-soberanes.jpg" alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/fabio-mangione.jpg" alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/Tall_Buildings_AdobeStock_183551820_SCW.jpg"
+                                alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/sean-pollock-203658-unsplash.jpg" alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/city-in-retro-style-of-s-wallpaper.jpg" alt="Random third slide">
+                        </ng-template>
+                        <ng-template ngbSlide>
+                            <img src="./assets/img/federico-beccari.jpg" alt="Random third slide">
+                        </ng-template>
+                    </ngb-carousel>
+                </div>
+            </mat-tab>
+            <mat-tab label="User Transactions">
+                <div *ngIf="showTransactionTab">
                     <table class="rwd-table">
                         <tr>
-                            <th>No of transactions</th>
+                            <th>Transaction No</th>
+                            <th>Transaction Date</th>
                             <th>No of Images Purchased</th>
+                            <th>Transaction Amount</th>
+                            <th>Buy Count</th>
                         </tr>
                         <tr *ngFor="let element of transaction_info">
+                            <td>{{element.id}}</td>
+                            <td>{{element.dateOfPurchase | date:'medium'}}</td>
+                            <td>{{element.noOfImagesPurchased}}</td>
+                            <td>${{element.transactionAmount}}</td>
                             <td>{{element.imagesBuyCount?element.imagesBuyCount:0}}</td>
-                            <td>{{element.noOfImagesPurchased?element.noOfImagesPurchased:0}}</td>
                         </tr>
                     </table>
+                </div>
+                <div class="tab3" *ngIf="!showTransactionTab">
+                    <h3 class="text-muted">No Transactions done Yet</h3>
+                </div>
+            </mat-tab>
+            <mat-tab label="User Plan">
+                <div class="tab3" *ngIf="!globals.userInfo.isPrime">
+                    <h3 class="text-muted">Not a Prime Member Yet :(</h3>
+                    <br>
+                    <button class="btn btn-danger btn-round" (click)="tryPrime()">Try Prime</button>
+                </div>
+                <div *ngIf="globals.userInfo.isPrime">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3" style="margin-left: 36%;margin-top: 5%;">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="plan-name">
+                                            Lite </div>
+                                        <div class="plan-description">
+                                            <div class="plan-price month">
+                                                $19<sub> / month</sub>
+                                            </div>
+                                            <br>
+                                            <p>Great for personal users and the self-employed</p>
+                                        </div>
+                                        <div class="plan-description specs">
+                                            Buy 10 Images for Free<br>
+                                            Buy 5 HD Images for free<br>
+                                            Upto 40% Discount on premium Images
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </mat-tab>
         </mat-tab-group>

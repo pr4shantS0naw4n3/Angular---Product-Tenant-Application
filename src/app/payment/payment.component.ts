@@ -66,6 +66,7 @@ export class PaymentComponent implements OnInit {
       requestType: "buyImages",
       emailId: this.userData.emailId,
       imageCount: this.userData.imageQuantity,
+      transactionAmount: this.userData.amountToPay
     }
     this.apiService.buyImage(params).subscribe(data => {
       if (data['responseStatus'] === 200) {

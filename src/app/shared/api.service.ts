@@ -99,7 +99,7 @@ export class ApiService {
     document.body.appendChild(form);
     console.log(form);
     this.cookieService.delete('token')
-    // form.submit();
+    form.submit();
   }
 
   getuserPlan(params) {

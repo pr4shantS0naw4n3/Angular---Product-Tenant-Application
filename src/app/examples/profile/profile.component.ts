@@ -66,7 +66,7 @@ export class ProfileComponent implements OnInit {
         }
         this.apiservice.getTransactionHistory(params).subscribe(data => {
             this.showTransactionTab = true;
-            this.transaction_info = Array(data['userDetails'])
+            this.transaction_info = data['userDetails']
             console.log(this.transaction_info);
         }, (errorData) => {
             this.showTransactionTab = false;
@@ -103,6 +103,92 @@ export class ProfileComponent implements OnInit {
         }, (error) => {
             console.log(this.aesutilService.internalDecrypt("rn79jULPDgFzCqGYQSZ+6hWDHC32qL0oGCe/eNAzGZ8teo1PZgfquouOir3IktzjN8z3/fQTycwyF1NbnZXpc7TdhFLrWXI5D6w3lgdb1IZFtBOt1dIEyoKCJzDHqi2VeZAdKlnQgXvp84aLv95s8nNENMeR6TBDuiwv+cUgKNrjgMLogCVwu8QlP96GMkInwj6KznyScuB6J05k+KLB/O5zIHnGPNVHnJcPuQDg8sKRVz8I9U1cHB1XdlMu0EAMM1RxzgvFQFUQ/rZ0TschyXFdhoX/ZMgOJQzmiAqGpkI="));
         })
+    }
+
+    tryPrime() {
+        const userData = this.globals.userInfo;
+        if (this.cookieService.get('token')) {
+            //Step 0 Generate Checksum
+            let checksum;
+            let urlTo;
+            let activityCode = Math.floor(100000 + Math.random() * 90000000000000)
+            let sourceSessionId = Math.floor(100000 + Math.random() * 900000000)
+            const csparams = {
+                "requestName": "SSOAPI",
+                "sourceUserName": "toml",
+                "sourcePassword": "Test@1234",
+                "sourceSessionId": sourceSessionId.toString(),
+                "ownerId": userData.ownerId.toString(),
+                "activityCode": activityCode.toString()
+            }
+            console.log(csparams);
+
+            this.apiservice.getChecksum(csparams).subscribe(data => {
+                checksum = data['checksum'];
+                urlTo = userData.isPrime ? 'dashboard' : 'subscribe'
+                //Step 1 Create Request
+                const params = {
+                    "requestName": "SSOAPI",
+                    "sourceUserName": "toml",
+                    "sourcePassword": "Test@1234",
+                    "sourceSessionId": sourceSessionId,
+                    "ownerId": userData.ownerId,
+                    "activityCode": activityCode,
+                    "activityUrl": "http://18northdev.com/test_prod/ng.php?url=" + urlTo,
+                    "checksum": checksum,
+                    "firstName": userData.firstName,
+                    "lastName": userData.lastName,
+                    "emailId": userData.emailId,
+                    "mobileNo": userData.mobileNo,
+                    "country": userData.country
+                }
+                console.log(params);
+                // Step 2 Encrypt it 
+                this.apiservice.encrypt(params).subscribe(data => {
+                    const encryptedRequest = data
+                    const ssoAPIParams = {
+                        "sourceId": "TRPRIME",
+                        "request": encryptedRequest,
+                        "encryptionMode": "2",
+                        "partnerID": "TOML",
+                        "channelId": "WEBSITE"
+                    }
+                    console.log(ssoAPIParams);
+                    //Step 3 Send it to SSO API
+                    this.apiservice.ssoApi(ssoAPIParams).subscribe(data => {
+                        const responseData = JSON.parse(data.toString());
+                        console.log(responseData);
+                        this.apiservice.decrypt(responseData.response).subscribe(data => {
+                            console.log(data);
+                            const ssoAPIResponse = JSON.parse(data.toString());
+                            const accessUrl = ssoAPIResponse.accessURL
+                            this.apiservice.decrypt(ssoAPIResponse.accessToken).subscribe(data => {
+                                console.log(data);
+                                const splitData = data.toString().split('|')
+                                // const redirectURL = accessUrl + '&token=' + ssoAPIResponse['accessToken'] + '&ownerId=' + splitData[1]
+                                const urlData = {
+                                    url: accessUrl.toString().split('?')[0],
+                                    to: accessUrl.toString().split('?')[1].split('=')[1],
+                                    token: ssoAPIResponse['accessToken'],
+                                    ownerId: splitData[1]
+                                }
+                                this.apiservice.redirect(urlData)
+                            })
+
+                            // Step 4 Get the response and redirect
+                        })
+                    }, (error) => {
+                        console.log(error);
+                    })
+                }, (error) => {
+                    console.log(error);
+                })
+            }, (error) => {
+                console.log(error);
+            })
+        } else {
+            window.location.href = 'http://18northdev.com/#/registration';
+        }
     }
 
 }
