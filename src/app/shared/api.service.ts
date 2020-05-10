@@ -71,15 +71,13 @@ export class ApiService {
     const form = document.createElement('form');
     form.style.display = 'none';
     form.method = 'POST';
-    form.action = urlData.url;
+    form.action = urlData.url + "?url=" + urlData.to;
     let input1, input2, input3;
 
     const signForm = new FormGroup({
-      'url': new FormControl(urlData.to),
       'token': new FormControl(urlData.token),
       'ownerId': new FormControl(urlData.ownerId)
     });
-
     input1 = document.createElement('input');
     input1.name = 'token';
     input1.id = 'token';
@@ -88,21 +86,21 @@ export class ApiService {
     input2.name = 'ownerId';
     input2.id = 'ownerId';
     input2.value = signForm.value.ownerId;
-    input3 = document.createElement('input');
-    input3.name = 'url';
-    input3.id = 'url';
-    input3.value = signForm.value.url;
     form.appendChild(input1);
     form.appendChild(input2);
-    form.appendChild(input3);
 
     document.body.appendChild(form);
     console.log(form);
+    localStorage.removeItem('userInfo')
     this.cookieService.delete('token')
     form.submit();
   }
 
   getuserPlan(params) {
-    return this.http.post('http://52.51.49.231:8081/api/subscriptionmanagement/userSubscriptionPlan/getPartnerUserPlan', JSON.stringify(params), httpJSONOptions)
+    return this.http.post<any>('http://52.51.49.231:8081/api/subscriptionmanagement/userSubscriptionPlan/getPartnerUserPlan', JSON.stringify(params), httpJSONOptions)
+  }
+
+  updateUserPlanUtilization(params) {
+    return this.http.post<any>('http://52.51.49.231:8081/api/subscriptionmanagement/userSubscriptionPlan/updatePartnerUserPlanUtilization', JSON.stringify(params), httpJSONOptions)
   }
 }

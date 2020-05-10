@@ -83,32 +83,69 @@
                     <h3 class="text-muted">No Transactions done Yet</h3>
                 </div>
             </mat-tab>
-            <mat-tab label="User Plan">
+            <mat-tab label="My Plan">
                 <div class="tab3" *ngIf="!globals.userInfo.isPrime">
-                    <h3 class="text-muted">Not a Prime Member Yet :(</h3>
+                    <h3 style="margin-left: -135px;">No Plan Available. Please Subscribe to Prime or Renew your Existing
+                        plan.
+                    </h3>
                     <br>
                     <button class="btn btn-danger btn-round" (click)="tryPrime()">Try Prime</button>
                 </div>
-                <div *ngIf="globals.userInfo.isPrime">
+                <div class="card-div" *ngIf="globals.userInfo.isPrime">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6 col-lg-3" style="margin-left: 36%;margin-top: 5%;">
-                                <div class="card">
+                                <div class="plancard">
                                     <div class="card-body">
                                         <div class="plan-name">
-                                            Lite </div>
+                                            {{userSubscriptionPlans?.subscriptionPlanName}} </div>
                                         <div class="plan-description">
                                             <div class="plan-price month">
-                                                $19<sub> / month</sub>
+                                                ${{userSubscriptionPlans?.volume}}<sub> / month</sub>
                                             </div>
                                             <br>
-                                            <p>Great for personal users and the self-employed</p>
+                                            <b>Plan Description:</b><br>
+                                            <p>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+                                                pellentesque sollicitudin arcu ut luctus. Nulla facilisi. Donec varius
+                                                purus egestas odio aliquet, gravida mollis magna tempus. Morbi fermentum
+                                                quis ex a consectetur. Morbi ut risus ac urna tempor blandit. Fusce
+                                                mollis nibh nulla, et sollicitudin velit commodo non. Pellentesque eros
+                                                nunc, aliquam at tellus at, venenatis mollis risus.
+                                            </p>
+                                            <!--{{userSubscriptionPlans?.subscriptionPlanDesc}} -->
+                                            <hr>
                                         </div>
-                                        <div class="plan-description specs">
-                                            Buy 10 Images for Free<br>
-                                            Buy 5 HD Images for free<br>
-                                            Upto 40% Discount on premium Images
+
+                                        <div class="plan-details">
+                                            <h2>Plan Details</h2><br>
+                                            No Of Free
+                                            Transactions<br>
+                                            <b>{{planUtilizationInfo?.utilVelocity+planUtilizationInfo?.remainingVelocity}}</b><br>
+                                            Total Free Transaction Amount<br>
+                                            <b>$
+                                                {{planUtilizationInfo?.utilVolume+planUtilizationInfo?.remainingVolume}}</b>
+                                            <hr>
+                                        </div><br><br>
+                                        <div class="plan-details">
+                                            <h2>Transaction Details</h2><br>
+                                            Transactions Done<br>
+                                            <b>{{planUtilizationInfo?.utilVelocity}}</b><br>
+                                            Remaining Free Transactions<br>
+                                            <b>{{planUtilizationInfo?.remainingVelocity}}</b><br><br>
+                                            <hr>
+                                            <h2>Transaction Amount Details</h2><br>
+                                            Transaction Amount Used<br>
+                                            <b>$ {{planUtilizationInfo?.utilVolume}}</b><br>
+                                            Total Transaction Amount Remaining<br>
+                                            <b>$ {{planUtilizationInfo?.remainingVolume}}</b>
+                                            <br><br>
+                                            <hr>
+                                            <h2>Plan Will Expire On</h2><br>
+                                            {{userSubscriptionPlans?.endDate | date}}<br>
+                                            <hr>
                                         </div>
+                                        <br>
                                     </div>
                                 </div>
                             </div>

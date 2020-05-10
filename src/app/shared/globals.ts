@@ -20,4 +20,12 @@ export class Globals {
     set paymentData(paymentData: any) {
         localStorage.setItem('paymentInfo', JSON.stringify(paymentData))
     }
+
+    get userPlanData() {
+        return JSON.parse(localStorage.getItem('userPlanInfo'))
+    }
+
+    set userPlanData(planData: any) {
+        localStorage.setItem('userPlanInfo', JSON.stringify(planData))
+    }
 }

@@ -1,3 +1,4 @@
+import { AesUtilService } from './../shared/aes-util.service';
 import { ApiService } from './../shared/api.service';
 import { NotificationService } from './../shared/notification.service';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -22,7 +23,8 @@ export class PaymentComponent implements OnInit {
     private globals: Globals,
     private notify: NotificationService,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private aesUtilService: AesUtilService
   ) { }
 
   ngOnInit() {
@@ -62,6 +64,8 @@ export class PaymentComponent implements OnInit {
   }
 
   proceedToPay() {
+    console.log(this.userData);
+
     const params = {
       requestType: "buyImages",
       emailId: this.userData.emailId,
@@ -69,7 +73,45 @@ export class PaymentComponent implements OnInit {
       transactionAmount: this.userData.amountToPay
     }
     this.apiService.buyImage(params).subscribe(data => {
-      if (data['responseStatus'] === 200) {
+      if (data['responseStatus'] === 200 && this.globals.userInfo.isPrime) {
+        const utilizationParams = {
+          "requestId": "3980908",
+          "channelId": "WEBSITE",
+          "ipAddress": "10.158.212.22",
+          "requestName": "updatePartnerUserPlanUtilization",
+          "organizationId": "34576",
+          "productId": "1",
+          "productUser": "toml",
+          "productPassword": "Test@1234",
+          "updatePartnerUserPlanUtilization": {
+            "customerId": this.globals.userInfo.ownerId,
+            "subscriptionPlanId": this.globals.userPlanData.subscriptionPlanId,
+            "partnerTxnRefNumber": "1213044001",
+            "fromCountryCode": this.globals.userPlanData.fromCountryCode,
+            "fromCurrencyCode": this.globals.userPlanData.fromCurrencyCode,
+            "toCountryCode": this.globals.userPlanData.toCountryCode,
+            "toCurrencyCode": this.globals.userPlanData.toCurrencyCode,
+            "txnAmount": this.userData.discountedAmount === 0 ? this.userData.amountToPay : this.userData.discountedAmount,
+            "txnType": "booking",
+            "updatedUtilizationInfo": true
+          }
+        }
+        console.log(utilizationParams);
+
+        const encParams = this.aesUtilService.internalEncrypt(JSON.stringify(utilizationParams))
+        this.apiService.updateUserPlanUtilization(encParams).subscribe(response => {
+          const parsedData = JSON.parse(response.toString());
+          const planUtilizationData = this.aesUtilService.internalDecrypt(parsedData['response'])
+          const parsedUtilizationData = JSON.parse(planUtilizationData)
+          console.log(parsedUtilizationData);
+          this.notify.pop(data['responseMessage'])
+          localStorage.removeItem('paymentInfo');
+          this.router.navigate(['/user/make-payment/payment-success'])
+        }, (error) => {
+          this.notify.pop("There some Internal problem going on, please try again later")
+          this.router.navigate(['/user-profile'])
+        })
+      } else {
         this.notify.pop(data['responseMessage'])
         localStorage.removeItem('paymentInfo');
         this.router.navigate(['/user/make-payment/payment-success'])

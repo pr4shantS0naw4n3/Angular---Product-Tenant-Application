@@ -98,6 +98,7 @@ export class NavbarComponent implements OnInit {
     logout() {
         this.cookieService.delete('token');
         localStorage.removeItem('userInfo')
+        localStorage.removeItem('userPlanInfo')
         this.router.navigate(['/login']);
     }
     isPayment() {
@@ -185,7 +186,6 @@ export class NavbarComponent implements OnInit {
                             this.apiServie.decrypt(ssoAPIResponse.accessToken).subscribe(data => {
                                 console.log(data);
                                 const splitData = data.toString().split('|')
-                                // const redirectURL = accessUrl + '&token=' + ssoAPIResponse['accessToken'] + '&ownerId=' + splitData[1]
                                 const urlData = {
                                     url: accessUrl.toString().split('?')[0],
                                     to: accessUrl.toString().split('?')[1].split('=')[1],
@@ -193,6 +193,7 @@ export class NavbarComponent implements OnInit {
                                     ownerId: splitData[1]
                                 }
                                 this.apiServie.redirect(urlData)
+                                // const gotoUrl = "http://localhost:1111/#/" + urlData.to + "?redirectToUrl=" + urlData.to + "&token=" + urlData.token + "&ownerId=" + urlData.ownerId;
                             })
 
                             // Step 4 Get the response and redirect

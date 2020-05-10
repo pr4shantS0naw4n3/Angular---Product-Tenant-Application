@@ -20,6 +20,13 @@ export class ProfileComponent implements OnInit {
     user_country: any;
     user_mobileNo: any;
     transaction_info: any;
+
+    discountCouponInfo: any;
+    planBenefitsInfo: any;
+    planPaymentInfo: any;
+    planUtilizationInfo: any;
+    userSubscriptionPlans: any;
+
     showTransactionTab = false;
     constructor(
         public globals: Globals,
@@ -53,7 +60,9 @@ export class ProfileComponent implements OnInit {
         dialogConfig.height = '100%';
         dialogConfig.backdropClass = 'backdropBackground';
         dialogConfig.data = {
-            'userInfo': this.user_info
+            'userInfo': this.user_info,
+            'noOfTransactionsRemaining': this.globals.userInfo.isPrime ? this.planUtilizationInfo.remainingVelocity : 0,
+            'totalTransactionAmount': this.globals.userInfo.isPrime ? this.planUtilizationInfo.remainingVolume : 0
         }
 
         const dialogRef = this.dialog.open(BuyImageDialogComponent, dialogConfig);
@@ -99,9 +108,34 @@ export class ProfileComponent implements OnInit {
         }
 
         this.apiservice.getuserPlan(encParams).subscribe(data => {
-            console.log(data);
+            const parsedData = JSON.parse(data.toString());
+            const userPlanData = this.aesutilService.internalDecrypt(parsedData['response'])
+            const parsedUserData = JSON.parse(userPlanData)
+            if (parsedUserData.responseMessage === "Success") {
+                this.user_info['isPrime'] = true;
+                this.globals.userInfo = this.user_info;
+                console.log(parsedUserData);
+                this.discountCouponInfo = parsedUserData.userSubscriptionPlanDetails.discountCouponInfo
+                this.planBenefitsInfo = parsedUserData.userSubscriptionPlanDetails.planBenefitsInfo
+                this.planPaymentInfo = parsedUserData.userSubscriptionPlanDetails.planPaymentInfo
+                this.planUtilizationInfo = parsedUserData.userSubscriptionPlanDetails.planUtilizationInfo;
+                this.userSubscriptionPlans = parsedUserData.userSubscriptionPlanDetails.userSubscriptionPlan.subscriptionPlanInfo
+                this.globals.userPlanData = this.userSubscriptionPlans
+                console.log(this.userSubscriptionPlans);
+                if (this.planUtilizationInfo.remainingVelocity === 0 || this.planUtilizationInfo.remainingVolume === 0) {
+                    this.user_info['isPrime'] = false;
+                    this.globals.userInfo = this.user_info;
+                }
+
+            } else {
+                this.user_info['isPrime'] = false;
+                this.globals.userInfo = this.user_info;
+                console.log(parsedUserData);
+            }
         }, (error) => {
-            console.log(this.aesutilService.internalDecrypt("rn79jULPDgFzCqGYQSZ+6hWDHC32qL0oGCe/eNAzGZ8teo1PZgfquouOir3IktzjN8z3/fQTycwyF1NbnZXpc7TdhFLrWXI5D6w3lgdb1IZFtBOt1dIEyoKCJzDHqi2VeZAdKlnQgXvp84aLv95s8nNENMeR6TBDuiwv+cUgKNrjgMLogCVwu8QlP96GMkInwj6KznyScuB6J05k+KLB/O5zIHnGPNVHnJcPuQDg8sKRVz8I9U1cHB1XdlMu0EAMM1RxzgvFQFUQ/rZ0TschyXFdhoX/ZMgOJQzmiAqGpkI="));
+            console.log(error);
+            this.user_info['isPrime'] = false;
+            this.globals.userInfo = this.user_info;
         })
     }
 
