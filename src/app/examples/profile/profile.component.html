@@ -9,7 +9,7 @@
                 <div class="avatar">
                     <img src="./assets/img/faces/profile_Icon.jpg" alt="Circle Image"
                         class="img-circle img-no-padding img-responsive">
-                    <i rel="tooltip" title="You are Prime" *ngIf="globals.userInfo.isPrime"
+                    <i rel="tooltip" title="You are Prime" *ngIf="globals.userInfo?.isPrime"
                         class="fa fa-star fa-2x fa-fw" style="color:orangered;margin-left: -8px;"></i>
                 </div>
                 <div class="name">
@@ -84,14 +84,14 @@
                 </div>
             </mat-tab>
             <mat-tab label="My Plan">
-                <div class="tab3" *ngIf="!globals.userInfo.isPrime">
+                <div class="tab3" *ngIf="!globals.userInfo?.isPrime">
                     <h3 style="margin-left: -135px;">No Plan Available. Please Subscribe to Prime or Renew your Existing
                         plan.
                     </h3>
                     <br>
                     <button class="btn btn-danger btn-round" (click)="tryPrime()">Try Prime</button>
                 </div>
-                <div class="card-div" *ngIf="globals.userInfo.isPrime">
+                <div class="card-div" *ngIf="globals.userInfo?.isPrime">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6 col-lg-3" style="margin-left: 36%;margin-top: 5%;">

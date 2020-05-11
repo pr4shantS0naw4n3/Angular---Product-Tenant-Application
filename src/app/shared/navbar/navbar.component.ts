@@ -194,6 +194,7 @@ export class NavbarComponent implements OnInit {
                                 }
                                 this.apiServie.redirect(urlData)
                                 // const gotoUrl = "http://localhost:1111/#/" + urlData.to + "?redirectToUrl=" + urlData.to + "&token=" + urlData.token + "&ownerId=" + urlData.ownerId;
+                                // window.location.href = gotoUrl;
                             })
 
                             // Step 4 Get the response and redirect
