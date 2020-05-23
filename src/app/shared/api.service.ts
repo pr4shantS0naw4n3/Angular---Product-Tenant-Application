@@ -31,27 +31,27 @@ export class ApiService {
   ) { }
 
   userLogin(userData) {
-    return this.http.post(environment.apiUserEc2 + 'login/', JSON.stringify(userData), httpOptions);
+    return this.http.post(environment.apiUserT2 + 'login/', JSON.stringify(userData), httpOptions);
   }
 
   registerNewUser(userData) {
-    return this.http.post(environment.apiUserEc2 + 'register/', JSON.stringify(userData), httpOptions);
+    return this.http.post(environment.apiUserT2 + 'register/', JSON.stringify(userData), httpOptions);
   }
 
   buyImage(data) {
-    return this.http.post(environment.apiUserEc2 + 'buyImages/', JSON.stringify(data), httpOptions);
+    return this.http.post(environment.apiUserT2 + 'buyImages/', JSON.stringify(data), httpOptions);
   }
 
   getTransactionHistory(data) {
-    return this.http.post(environment.apiUserEc2 + 'getTransactionHistory/', JSON.stringify(data), httpOptions);
+    return this.http.post(environment.apiUserT2 + 'getTransactionHistory/', JSON.stringify(data), httpOptions);
   }
 
   rssoUserLogin(userData) {
-    return this.http.post(environment.apiSSOEc2 + 'login/', JSON.stringify(userData), httpOptions);
+    return this.http.post(environment.apiSSOT2 + 'login/', JSON.stringify(userData), httpOptions);
   }
 
   getChecksum(data) {
-    return this.http.post(environment.apiSSOEc2 + 'getChecksum/', JSON.stringify(data), httpOptions);
+    return this.http.post(environment.apiSSOT2 + 'getChecksum/', JSON.stringify(data), httpOptions);
   }
 
   ssoApi(data) {
